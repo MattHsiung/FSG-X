@@ -1,0 +1,17 @@
+@import './common/common'
+.app
+  height: 100vh
+  width: 100vw
+  max-height: 100vh
+  overflow: hidden
+  display: flex
+  flex-direction: column
+
+  > main, nav
+    flex: 1
+
+  > main
+    overflow-Y: scroll
+    // retains momentum scrolling on mobile
+    -webkit-overflow-scrolling: touch
+    display: flex

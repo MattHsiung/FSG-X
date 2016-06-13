@@ -1,0 +1,93 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,100,300,700);
+
+//Global Colors
+$primaryColor: #2ea3eb
+$accentColor: #20cc9f
+$bgColor: #252e3e
+$edge: #333d59
+$darkBgColor: #1e2533
+$lightBgColor: #343a46
+$lightTextColor: #cad4ec
+$darkTextColor: #687690
+$radialBg: radial-gradient(at top, #333A46, #181E2C)
+$darkRadial: radial-gradient(#282d37, #1e2533)
+$primaryGradient: radial-gradient(at top, $accentColor, $primaryColor)
+
+$mainFont: 'Lato'
+$defaultWeight: 100
+
+*, *::after, *::before
+	box-sizing: border-box
+
+//body = viewport
+html, body
+	height: 100vh
+  	font-family: 'Lato'
+  	font-weight: 100
+
+
+//opinionated resets
+:root
+	font-size: 10px
+
+h1,h2,h3,h4,h5,h6
+	margin: 0
+ul
+	margin: 0
+	list-style: none
+
+h1
+	font-size: 11.2rem
+	font-weight: 300
+h2
+	font-size: 5.6rem
+	font-weight: 400
+
+h3
+	font-size: 4.5rem
+	font-weight: 400
+
+h4
+	font-size: 3.4rem
+	font-weight: 400
+
+h5
+	font-size: 2.4rem
+	font-weight: 400
+
+h6
+	font-size: 2.0rem
+	font-weight: 500
+a
+	text-decoration: none
+	&:active, &:visited
+		text-decoration: none
+
+alert
+	position: fixed
+	width: 100vw
+	height: 100vh
+	background: rgba(0,0,0,0.3)
+	top: 0
+	left: 0
+	h4	
+		text-align: center
+		position: fixed
+		width: 400px
+		height: 225px
+		top: 50%
+		left: 50%
+		transform: translate(-50%, -50%)
+		background: $accentColor
+		z-index: 100
+		display: flex
+		justify-content: center
+		align-items: center
+		box-shadow: 0px 16px 38px rgba(0,0,0,0.12)
+	img
+		position: fixed
+		top: 50%
+		left: 50%
+		transform: translate(-50%, -50%)
+		z-index: 100
+		box-shadow: 0px 16px 38px rgba(0,0,0,0.12)

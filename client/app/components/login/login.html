@@ -1,0 +1,30 @@
+<form id="login-form" name="vm.loginForm" ng-submit="vm.loginForm.$valid && vm.login(vm.loginInfo)">
+    <div class="form-group">
+        <input type="text" ng-model="vm.loginInfo.email" id="email" placeholder="Email" autocomplete="off">
+    </div>
+    <div class="form-group">
+        <input type="password" ng-model="vm.loginInfo.password" id="login-password" placeholder="Password" autocomplete="off">
+    </div>
+    <button type="submit">Login</button>
+</form>
+<form id="signup-form" name="vm.signupForm" ng-submit="vm.signupForm.$valid && vm.signup(vm.signupInfo)">
+    <div class="form-group">
+        <input type="text" ng-model="vm.signupInfo.displayName" id="displayName" placeholder="Username" autocomplete="off">
+    </div>
+    <div class="form-group">
+        <input type="text" ng-model="vm.signupInfo.email" id="email" placeholder="Email" autocomplete="off">
+    </div>
+    <div class="form-group">
+        <input type="password" ng-model="vm.signupInfo.password" id="login-password" placeholder="Password" autocomplete="off">
+    </div>
+    <button type="submit">Signup</button>
+</form>
+
+<form>
+    <button ng-click="vm.authenticate('google')">Login with Google</button>
+    <button ng-click="vm.authenticate('github')">Login with Github</button>
+    <button ng-click="vm.authenticate('facebook')">Login with Facebook</button>
+</form>
+<alert ng-show="vm.error" ng-click="vm.resetError()">
+    <h4>{{ vm.error }}</h4>
+</alert>

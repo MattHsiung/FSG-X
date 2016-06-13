@@ -1,0 +1,23 @@
+@import '../common'
+navbar
+  position: relative
+  z-index: 100
+  box-shadow: 0px 16px 38px rgba(0,0,0,0.12)
+  .navbar
+    background-color: $darkRadial
+    padding: 0.5rem 10vw
+    display: flex
+    justify-content: space-between
+    align-items: center
+    .logo
+      color: $lightTextColor
+      img
+        height: 1.5em
+    .nav-links
+      .nav-link
+        color: $darkTextColor
+        font-size: 2em
+        margin-left: 1em
+        &.isActive
+          color: $lightTextColor
+          
