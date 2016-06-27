@@ -1,25 +1,11 @@
-'use strict';
 import chalk   from 'chalk';
-import startDb from './db';
-import app     from './app';
+import mongoose from 'mongoose';
+import app from './server';
+import config from './config/config';
 
-const server = require('http').createServer();
+mongoose.connect(config.db.url);
+console.log(chalk.green.bold('MONGO-DB CONNECTED'));
 
-const createApplication = () => {
-  server.on('request', app);
-};
-
-const startServer = () => {
-  const PORT = process.env.PORT || 9000;
-  server.listen(PORT, () => {
-    console.log(chalk.blue('Server is over 900000000000', chalk.magenta(PORT)));
-  });
-};
-
-startDb
-	.then(createApplication)
-	.then(startServer)
-	.catch( err => {
-	  console.error(chalk.red(err.stack));
-    process.kill(1);
-	});
+app.listen(config.port, () => {
+  console.log(chalk.green.bold.underline('Listening on port ', chalk.magenta(config.port)));
+});

@@ -1,2 +1,2 @@
 require('babel-register');
-require('./server/seed');
+require('./server/util/seed');

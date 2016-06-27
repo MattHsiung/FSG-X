@@ -6,7 +6,7 @@ class AppController {
 
 	$onInit() {
       	this.auth = this.AuthFactory.getLoggedInUser();
-      	this.AuthFactory.getUser();
+      	if (this.AuthFactory.isAuthenticated()) this.AuthFactory.getUser();
     }
 };
 
