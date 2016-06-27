@@ -26,19 +26,18 @@ const UserSchema = new mongoose.Schema({
   twitch: String
 });
 
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', function(next) {
   const user = this;
   if (!user.isModified('password')) {
     return next();
   }
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(user.password, salt, (err, hash) => {
+  bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(user.password, salt, function(err, hash) {
       user.password = hash;
       next();
     });
   });
 });
-
 
 UserSchema.methods.comparePassword = function(password, done) {
   bcrypt.compare(password, this.password, function(err, isMatch) {

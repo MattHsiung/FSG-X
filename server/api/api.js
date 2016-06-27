@@ -1,4 +1,4 @@
-import router			from 'express'
+import router			from 'express';
 import UserRouter		from './users/user.router';
 import MembersRouter	from './members/members.router';
 

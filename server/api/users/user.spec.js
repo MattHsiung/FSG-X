@@ -1,8 +1,7 @@
-'use strict';
 import mongoose from 'mongoose';
 import sinon    from 'sinon';
 import {expect} from 'chai';
-import User     from '../../api/users/user.model';
+import User     from './user.model';
 
 const dbURI   = 'mongodb://localhost:27017/testingDB';
 const clearDB = require('mocha-mongoose')(dbURI);
@@ -17,12 +16,12 @@ const createUser = () => User.create(obama);
 
 describe('User model', () => {
 
-  beforeEach('Establish DB connection', done => {
+  beforeEach('Establish DB connection', (done) => {
     if (mongoose.connection.db) return done();
     mongoose.connect(dbURI, done);
   });
 
-  afterEach('Clear test database', done => clearDB(done));  
+  afterEach('Clear test database', (done) => clearDB(done));  
 
   it('should exist', () => {
     expect(User).to.be.a('function');

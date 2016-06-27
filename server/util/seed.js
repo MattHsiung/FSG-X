@@ -1,18 +1,18 @@
-import mongoose    from 'mongoose';
-import Promise     from 'bluebird';
-import chalk       from 'chalk';
-import connectToDb from './db';
+import mongoose from 'mongoose';
+import Promise  from 'bluebird';
+import chalk    from 'chalk';
+import User     from '../api/users/user.model';
 
-const User = mongoose.model('User');
 
-const wipeCollections = () => {
+const cleanDB = () => {
+  console.log(chalk.yellow('Seeding...'));
   let removeUsers = User.remove({});
   return Promise.all([
     removeUsers
   ]);
 };
 
-const seedUsers = () => {        
+const seedUser = () => {        
   return User.create({
     displayName: 'Barack Obama',
     email: 'obama@gmail.com',
@@ -20,14 +20,16 @@ const seedUsers = () => {
   });
 };
 
-connectToDb
-  .then(wipeCollections)
-  .then(seedUsers)
-  .then(() => {
-    console.log(chalk.green('Seed successful!'));
-    process.kill(0);
-  })
-  .catch( err => {
-    console.error(err);
-    process.kill(1);
-  });
+const seedDB = () => {
+  cleanDB()
+    .then(seedUser)
+    .then(() => {
+      console.log(chalk.green('Seed successful!'));
+    })
+    .catch( err => {
+      console.error(err);
+      process.kill(1);
+    });
+}; 
+
+export default seedDB;

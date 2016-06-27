@@ -7,6 +7,5 @@ mongoose.connect(config.db.url);
 console.log(chalk.green.bold('MONGO-DB CONNECTED'));
 
 app.listen(config.port, () => {
-  console.log(
-  	chalk.green.bold.underline('Listeing on port ', chalk.magenta(config.port)));
+  console.log(chalk.green.bold.underline('Listening on port ', chalk.magenta(config.port)));
 });

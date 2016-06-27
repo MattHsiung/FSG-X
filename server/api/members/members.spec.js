@@ -1,8 +1,8 @@
-import mongoose   from 'mongoose';
-import {expect}   from 'chai';
-import request  	from 'supertest';
-import app        from '../../server';
-import User     	from '../../api/users/user.model';
+import mongoose from 'mongoose';
+import {expect} from 'chai';
+import request 	from 'supertest';
+import app      from '../../server';
+import User    	from '../users/user.model';
 
 const dbURI   = 'mongodb://localhost:27017/testingDB';
 const clearDB = require('mocha-mongoose')(dbURI);
