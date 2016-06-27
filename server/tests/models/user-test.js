@@ -2,11 +2,10 @@
 import mongoose from 'mongoose';
 import sinon    from 'sinon';
 import {expect} from 'chai';
-import '../../db/models';
+import User     from '../../api/users/user.model';
 
 const dbURI   = 'mongodb://localhost:27017/testingDB';
 const clearDB = require('mocha-mongoose')(dbURI);
-const User    = mongoose.model('User');
 
 const obama = { 
   displayName: 'Barack Obama',

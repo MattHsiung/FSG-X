@@ -7,7 +7,7 @@ let AuthFactory = function ($http, $auth) {
     let getLoggedInUser = () => auth;
 
     let getUser = () => {
-        $http.get('/api/me')
+        $http.get('/api/users/me')
             .then(({data}) => auth.user = data)
             .catch(({data}) => console.log('FAILED: ', data.message));
     };

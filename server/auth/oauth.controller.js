@@ -1,123 +1,38 @@
+//EXCERPTED FROM:
 /**
  * Satellizer Node.js Example
  * (c) 2015 Sahat Yalkabov
  * License: MIT
  */
-import path     from 'path';
-import qs       from 'querystring';
-import async    from 'async';
-import colors   from 'colors';
-import cors     from 'cors';
-import express  from 'express';
-import log      from 'morgan';
-import jwt      from 'jwt-simple';
-import moment   from 'moment';
-import request  from 'request';
-import config   from './config';
-import mongoose from 'mongoose';
-import {ensureAuthenticated} from './authentication-helpers'
 
+import qs          from 'querystring';
+import async       from 'async';
+import jwt         from 'jwt-simple';
+import request     from 'request';
+import config      from './config';
+import User        from '../api/users/user.model';
+import {createJWT} from './auth-util'
 
-const User = mongoose.model('User');
-
-module.exports = function (app) {
-
-  app.use(cors());
-  app.use(log('dev'));
-
-/*
- |--------------------------------------------------------------------------
- | Generate JSON Web Token
- |--------------------------------------------------------------------------
- */
-  function createJWT(user) {
-    var payload = {
-      sub: user._id,
-      iat: moment().unix(),
-      exp: moment().add(14, 'days').unix()
-    };
-    return jwt.encode(payload, config.TOKEN_SECRET);
-  }
-
-/*
- |--------------------------------------------------------------------------
- | GET /api/me
- |--------------------------------------------------------------------------
- */
-  app.get('/api/me', ensureAuthenticated, function(req, res) {
-    User.findById(req.user, function(err, user) {
-      res.send(user);
-    });
-  });
-
-/*
- |--------------------------------------------------------------------------
- | PUT /api/me
- |--------------------------------------------------------------------------
- */
-  app.put('/api/me', ensureAuthenticated, function(req, res) {
-    User.findById(req.user, function(err, user) {
-      if (!user) {
-        return res.status(400).send({ message: 'User not found' });
-      }
-      user.displayName = req.body.displayName || user.displayName;
-      user.email = req.body.email || user.email;
-      user.save(function(err) {
-        res.status(200).end();
-      });
-    });
-  });
-
-
-/*
- |--------------------------------------------------------------------------
- | Log in with Email
- |--------------------------------------------------------------------------
- */
-  app.post('/auth/login', function(req, res) {
-    User.findOne({ email: req.body.email }, '+password', function(err, user) {
-      if (!user) {
-        return res.status(401).send({ message: 'Invalid email and/or password' });
-      }
-      user.comparePassword(req.body.password, function(err, isMatch) {
-        if (!isMatch) {
-          return res.status(401).send({ message: 'Invalid email and/or password' });
-        }
-        res.send({ token: createJWT(user) });
-      });
-    });
-  });
-
-/*
- |--------------------------------------------------------------------------
- | Create Email and Password Account
- |--------------------------------------------------------------------------
- */
-  app.post('/auth/signup', function(req, res) {
-    User.findOne({ email: req.body.email }, function(err, existingUser) {
-      if (existingUser) {
-        return res.status(409).send({ message: 'Email is already taken' });
-      }
-      var user = new User({
-        displayName: req.body.displayName,
-        email: req.body.email,
-        password: req.body.password
-      });
-      user.save(function(err, result) {
-        if (err) {
-          res.status(500).send({ message: err.message });
-        }
-        res.send({ token: createJWT(result) });
-      });
-    });
-  });
+export const providers = [
+  'facebook', 
+  'foursquare', 
+  'google', 
+  'github', 
+  'instagram',
+  'linkedin', 
+  'live', 
+  'twitter', 
+  'twitch', 
+  'yahoo'
+];
 
 /*
  |--------------------------------------------------------------------------
  | Login with Google
  |--------------------------------------------------------------------------
  */
-  app.post('/auth/google', function(req, res) {
+  export const google = (req, res) => {
+    console.log('HIT GOOGLE ROUTE')
     var accessTokenUrl = 'https://accounts.google.com/o/oauth2/token';
     var peopleApiUrl = 'https://www.googleapis.com/plus/v1/people/me/openIdConnect';
     var params = {
@@ -177,14 +92,14 @@ module.exports = function (app) {
         }
       });
     });
-  });
+  };
 
 /*
  |--------------------------------------------------------------------------
  | Login with GitHub
  |--------------------------------------------------------------------------
  */
-  app.post('/auth/github', function(req, res) {
+  export const github = (req, res) => {
     var accessTokenUrl = 'https://github.com/login/oauth/access_token';
     var userApiUrl = 'https://api.github.com/user';
     var params = {
@@ -242,14 +157,14 @@ module.exports = function (app) {
         }
       });
     });
-  });
+  };
 
 /*
 |--------------------------------------------------------------------------
 | Login with Instagram
 |--------------------------------------------------------------------------
 */
-  app.post('/auth/instagram', function(req, res) {
+  export const instagram = (req, res) => {
     var accessTokenUrl = 'https://api.instagram.com/oauth/access_token';
 
     var params = {
@@ -306,14 +221,14 @@ module.exports = function (app) {
         });
       }
     });
-  });
+  };
 
 /*
  |--------------------------------------------------------------------------
  | Login with LinkedIn
  |--------------------------------------------------------------------------
  */
-  app.post('/auth/linkedin', function(req, res) {
+  export const linkedin = (req, res) => {
     var accessTokenUrl = 'https://www.linkedin.com/uas/oauth2/accessToken';
     var peopleApiUrl = 'https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address,picture-url)';
     var params = {
@@ -376,14 +291,14 @@ module.exports = function (app) {
         }
       });
     });
-  });
+  };
 
 /*
  |--------------------------------------------------------------------------
  | Login with Windows Live
  |--------------------------------------------------------------------------
  */
-  app.post('/auth/live', function(req, res) {
+  export const live = (req, res) => {
     async.waterfall([
       // Step 1. Exchange authorization code for access token.
       function(done) {
@@ -444,14 +359,14 @@ module.exports = function (app) {
         }
       }
     ]);
-  });
+  };
 
 /*
  |--------------------------------------------------------------------------
  | Login with Facebook
  |--------------------------------------------------------------------------
  */
-  app.post('/auth/facebook', function(req, res) {
+  export const facebook = (req, res) => {
     var fields = ['id', 'email', 'first_name', 'last_name', 'link', 'name'];
     var accessTokenUrl = 'https://graph.facebook.com/v2.5/oauth/access_token';
     var graphApiUrl = 'https://graph.facebook.com/v2.5/me?fields=' + fields.join(',');
@@ -512,14 +427,14 @@ module.exports = function (app) {
         }
       });
     });
-  });
+  };
 
 /*
  |--------------------------------------------------------------------------
  | Login with Yahoo
  |--------------------------------------------------------------------------
  */
-  app.post('/auth/yahoo', function(req, res) {
+  export const yahoo = (req, res) => {
     var accessTokenUrl = 'https://api.login.yahoo.com/oauth2/get_token';
     var clientId = req.body.clientId;
     var clientSecret = config.YAHOO_SECRET;
@@ -575,14 +490,14 @@ module.exports = function (app) {
         }
       });
     });
-  });
+  };
 
 /*
  |--------------------------------------------------------------------------
  | Login with Twitter
  |--------------------------------------------------------------------------
  */
-  app.post('/auth/twitter', function(req, res) {
+  export const twitter = (req, res) => {
     var requestTokenUrl = 'https://api.twitter.com/oauth/request_token';
     var accessTokenUrl = 'https://api.twitter.com/oauth/access_token';
     var profileUrl = 'https://api.twitter.com/1.1/users/show.json?screen_name=';
@@ -671,14 +586,14 @@ module.exports = function (app) {
         });
       });
     }
-  });
+  };
 
 /*
  |--------------------------------------------------------------------------
  | Login with Foursquare
  |--------------------------------------------------------------------------
  */
-  app.post('/auth/foursquare', function(req, res) {
+  export const foursquare = (req, res) => {
     var accessTokenUrl = 'https://foursquare.com/oauth2/access_token';
     var profileUrl = 'https://api.foursquare.com/v2/users/self';
     var formData = {
@@ -740,14 +655,14 @@ module.exports = function (app) {
         }
       });
     });
-  });
+  };
 
 /*
  |--------------------------------------------------------------------------
  | Login with Twitch
  |--------------------------------------------------------------------------
  */
-  app.post('/auth/twitch', function(req, res) {
+  export const twitch = (req, res) => {
     var accessTokenUrl = 'https://api.twitch.tv/kraken/oauth2/token';
     var profileUrl = 'https://api.twitch.tv/kraken/user';
     var formData = {
@@ -808,14 +723,14 @@ module.exports = function (app) {
         }
       });
     });
-  });
+  };
 
 /*
  |--------------------------------------------------------------------------
  | Login with Bitbucket
  |--------------------------------------------------------------------------
  */
-  app.post('/auth/bitbucket', function(req, res) {
+  export const bitbucket = (req, res) => {
     var accessTokenUrl = 'https://bitbucket.org/site/oauth2/access_token';
     var userApiUrl = 'https://bitbucket.org/api/2.0/user';
     var emailApiUrl = 'https://bitbucket.org/api/2.0/user/emails';
@@ -886,31 +801,4 @@ module.exports = function (app) {
         });
       });
     });
-  });
-
-/*
- |--------------------------------------------------------------------------
- | Unlink Provider
- |--------------------------------------------------------------------------
- */
-  app.post('/auth/unlink', ensureAuthenticated, function(req, res) {
-    var provider = req.body.provider;
-    var providers = ['facebook', 'foursquare', 'google', 'github', 'instagram',
-      'linkedin', 'live', 'twitter', 'twitch', 'yahoo'];
-
-    if (providers.indexOf(provider) === -1) {
-      return res.status(400).send({ message: 'Unknown OAuth Provider' });
-    }
-
-    User.findById(req.user, function(err, user) {
-      if (!user) {
-        return res.status(400).send({ message: 'User Not Found' });
-      }
-      user[provider] = undefined;
-      user.save(function() {
-        res.status(200).end();
-      });
-    });
-  });
-
-};
+  };

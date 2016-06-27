@@ -1,10 +1,16 @@
-'use strict';
 import mongoose from 'mongoose';
 import bcrypt   from 'bcryptjs';
 
-const userSchema = new mongoose.Schema({
-  email: { type: String, unique: true, lowercase: true },
-  password: { type: String, select: false },
+const UserSchema = new mongoose.Schema({
+  email: { 
+  	type: String, 
+  	unique: true, 
+  	lowercase: true 
+  },
+  password: { 
+  	type: String, 
+  	select: false 
+  },
   displayName: String,
   picture: String,
   bitbucket: String,
@@ -20,23 +26,24 @@ const userSchema = new mongoose.Schema({
   twitch: String
 });
 
-userSchema.pre('save', function(next) {
+UserSchema.pre('save', (next) => {
   const user = this;
   if (!user.isModified('password')) {
     return next();
   }
-  bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(user.password, salt, function(err, hash) {
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(user.password, salt, (err, hash) => {
       user.password = hash;
       next();
     });
   });
 });
 
-userSchema.methods.comparePassword = function(password, done) {
+
+UserSchema.methods.comparePassword = function(password, done) {
   bcrypt.compare(password, this.password, function(err, isMatch) {
     done(err, isMatch);
   });
 };
 
-const User = mongoose.model('User', userSchema);
+export default mongoose.model('User', UserSchema);

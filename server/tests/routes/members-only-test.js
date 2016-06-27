@@ -1,12 +1,11 @@
-import '../../../server/db/models';
 import mongoose   from 'mongoose';
 import {expect}   from 'chai';
 import request  	from 'supertest';
-import app        from '../../app';
+import app        from '../../server';
+import User     	from '../../api/users/user.model';
 
 const dbURI   = 'mongodb://localhost:27017/testingDB';
 const clearDB = require('mocha-mongoose')(dbURI);
-const User    = mongoose.model('User');
 
 const obama = { 
   displayName: 'Barack Obama',

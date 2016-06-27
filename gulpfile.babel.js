@@ -21,19 +21,17 @@ import historyApiFallback   from 'connect-history-api-fallback';
 
 let root = 'client';
 
-// helper method for resolving paths
 let resolveToApp = (glob = '') => {
-  return path.join(root, 'app', glob); // app/{glob}
+  return path.join(root, 'app', glob);
 };
 
 let resolveToComponents = (glob = '') => {
-  return path.join(root, 'app/components', glob); // app/components/{glob}
+  return path.join(root, 'app/components', glob);
 };
 
-// map of all paths
 let paths = {
-  js: resolveToComponents('**/*!(.spec.js).js'), // exclude spec files
-  sass: resolveToApp('**/*.sass'), // stylesheets
+  js: resolveToComponents('**/*!(.spec.js).js'),
+  sass: resolveToApp('**/*.sass'),
   html: [
     resolveToApp('**/*.html'),
     path.join(root, 'index.html')
@@ -52,7 +50,6 @@ gulp.task('todo', () => {
     .pipe(todo({silent: false, verbose: true}));
 });
 
-// use webpack.config.js to build modules
 gulp.task('webpack', ['clean'], (cb) => {
   const config = require('./webpack.dist.config');
   config.entry.app = paths.entry;
@@ -75,10 +72,7 @@ gulp.task('webpack', ['clean'], (cb) => {
 gulp.task('serve', ['todo'], () => {
   const config = require('./webpack.dev.config');
   config.entry.app = [
-    // this modules required to make HRM working
-    // it responsible for all this webpack magic
     'webpack-hot-middleware/client?reload=true',
-    // application entry point
   ].concat(paths.entry);
 
   var compiler = webpack(config);
@@ -103,6 +97,7 @@ gulp.task('serve', ['todo'], () => {
 });
 
 gulp.task('watch', ['serve']);
+
 gulp.task('component', () => {
   const cap = (val) => {
     return val.charAt(0).toUpperCase() + val.slice(1);
