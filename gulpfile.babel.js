@@ -144,7 +144,7 @@ gulp.task('router', () => {
     .on('end', () => {
       console.log(chalk.green(`NEW ROUTER CREATED @ ${destPath}`));
       console.log(chalk.red(`DON'T FORGET TO ADD TO API.JS:`));
-      console.log(chalk.yellow(`import ${cap(name)}Router    from './${name}/${name}.router;'`));
+      console.log(chalk.yellow(`import ${cap(name)}Router    from './${name}/${name}.router';`));
       console.log(chalk.yellow(`ApiRouter.use('/${name}', ${cap(name)}Router);`));
     });
 });
