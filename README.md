@@ -1,16 +1,8 @@
 <div align="center">
   <img src="http://s32.postimg.org/kmz8cz8xh/FSGX_logo_lg.png">
   <h1> FullStack Generator X</h1>
-    <span>ALPHA RELEASE 1.0.0</span>
+    <span>ALPHA RELEASE 1.1.0</span>
 </div>
-
-# Instructions
-### 1. run 'npm i'
-### 1. Run 'npm start'
-### 2. Run 'gulp' 
-### 3. Navigate to Localhost:3000 
-
-# I will be releasing walkthrough videos soon!
 
 <p align="center">
   <a href="https://github.com/FullstackAcademy/fsg" target="_blank">
@@ -20,3 +12,7 @@
     <img src="https://cloud.githubusercontent.com/assets/1016365/9864650/93a5660a-5b00-11e5-8716-a0d538d12913.png" alt="ng6-starter" width="240px;" >
   </a>
 </p>
+
+# Video Docs
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/EBRaBVcj40Y" frameborder="0" allowfullscreen></iframe>
