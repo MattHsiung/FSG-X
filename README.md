@@ -1,7 +1,7 @@
 <div align="center">
   <img src="http://s32.postimg.org/kmz8cz8xh/FSGX_logo_lg.png">
-  <h1> FullStack Generator X</h1>
-    <span>ALPHA RELEASE 1.1.0</span>
+  <h1 align="center"> FullStack Generator X</h1>
+    <h3 align="center">ALPHA RELEASE 1.1.0</h3>
 </div>
 
 <p align="center">
@@ -16,4 +16,14 @@
 # Video Docs
 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/EBRaBVcj40Y" frameborder="0" allowfullscreen></iframe>
+* [Intro & Installation] (https://youtu.be/EBRaBVcj40Y)
+* [Project Structure] (https://youtu.be/RH0R4UvgBiQ)
+* [Build System - Gulp & Webpack] (https://youtu.be/GN9LGeAUTiQ)
+* [Client Side Code] (https://youtu.be/EhO_SF5m2DE)
+* [Angular & Components](https://youtu.be/C7oEVznjHxg)
+* [Server Code] (https://youtu.be/CS01FVwNpiU)
+* [Authentication with Satellizer](https://youtu.be/Z-k7IomUSGI)
+* [O-Auth with Satellizer & Google](https://youtu.be/5teI9xkMMCo)
+* [Templating with Gulp](https://youtu.be/d8d77VucO5s)
+* [Testing, Front to Back](https://youtu.be/U-CF9lIDWrI)
+* [Building for Distribution with Webpack](https://youtu.be/MTjpwfLbGa0)
